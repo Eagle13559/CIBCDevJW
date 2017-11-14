@@ -37,3 +37,5 @@ Haven't done.
 Bonus Task #3:
 
 Tried several times to download. The QT servers were having a seizure. :(
+
+Update: Tried again, successfully installed QT, Cmake, and built the project. :)
