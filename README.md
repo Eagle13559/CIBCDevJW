@@ -28,6 +28,8 @@ What to expect:
 
 As of 11/13, I have successfully written the DFS algorithm for sorting the tree. The downside is I need to figure out how to hand nodes not connected to any other node. Will Resolve soon.
 
+11/14: Pivoted technique. Realized DFS alone is not enough to detect cycles. Implemented a cycle detection algorithm, followed by a topological sort if the cycle detection comes back as negative.
+
 Bonus Task #2:
 
 Haven't done.
