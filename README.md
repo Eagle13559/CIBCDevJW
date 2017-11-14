@@ -32,7 +32,7 @@ As of 11/13, I have successfully written the DFS algorithm for sorting the tree.
 
 Bonus Task #2:
 
-Haven't done.
+Haven't done. Was pushed out of the sprint and put on the backlog.
 
 Bonus Task #3:
 
