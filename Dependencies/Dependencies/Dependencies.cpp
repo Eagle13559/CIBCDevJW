@@ -5,41 +5,63 @@
 #include <map>
 #include <sstream>
 #include <iostream>
+#include <stack>
 
 std::map<char, int> m;
 std::vector<std::vector<char>> graph;
 std::vector<bool> visited;
-std::stringstream ss;
+std::vector<bool> backEdge;
 char projects[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
+std::stack<char> topoSortStack;
 
 void insertEdge(char _before, char _after)
 {
 	graph.at(m[_before]).push_back(_after);
 }
 
-void DFS(char _v)
+bool findCycle(char _v)
 {
 	int index = m[_v];
-	visited.at(index) = true;
-	ss << " " << _v;
-	for (int i = 0; i < graph.at(index).size(); ++i)
+	if (!visited.at(index))
 	{
-		int nextIndex = m[graph.at(index).at(i)];
-		if (!visited.at(nextIndex))
+		visited.at(index) = true;
+		backEdge.at(index) = true;
+		for (int i = 0; i < graph.at(index).size(); ++i)
 		{
-			DFS(graph.at(index).at(i));
+			int nextIndex = m[graph.at(index).at(i)];
+			if (!visited.at(nextIndex) && findCycle(projects[nextIndex]))
+				return true;
+			else if (backEdge.at(nextIndex))
+				return true;
 		}
 	}
+	backEdge.at(index) = false;
+	return false;
 }
 
 void clearVectors()
 {
 	visited.clear();
+	backEdge.clear();
 	for (int i = 0; i < 6; ++i)
 	{
 		visited.push_back(false);
+		backEdge.push_back(false);
 	}
-	ss.str("");
+}
+
+void topoSort(char _v) 
+{
+	int index = m[_v];
+	visited.at(index) = true;
+	for (int i = 0; i < graph.at(index).size(); ++i)
+	{
+		int nextIndex = m[graph.at(index).at(i)];
+		if (!visited.at(nextIndex))
+			topoSort(projects[nextIndex]);
+	}
+
+	topoSortStack.push(_v);
 }
 
 
@@ -60,33 +82,35 @@ int main()
 	insertEdge('b', 'd');
 	insertEdge('f', 'a');
 	insertEdge('d', 'c');
-	//insertEdge('f', 'e');
+	insertEdge('f', 'e');
+	insertEdge('e', 'f');
 
+	bool isValid;
 	// Just brute force all paths until we hopefully start from the correct node
 	for (int i = 0; i < 6; ++i)
 	{
-		DFS(projects[i]);
-		bool isValid = true;
-		for (int j = 0; j < visited.size(); ++j)
-		{
-			if (visited.at(j) == false)
-			{
-				isValid = false;
-				break;
-			}
-		}
-		if (isValid)
-		{
-			std::cout << ss.str() << "\n";
-			return 0;
-		}
-		else
-		{
-			clearVectors();
-		}
+		isValid = !findCycle(projects[i]);
+		if (!isValid)
+			break;
 	}
 
-	std::cout << "Error: Unable to find list!";
+	if (!isValid)
+		std::cout << "Error: Graph contains cycle!";
+	else
+	{
+		clearVectors();
+		for (int i = 0; i < 6; ++i)
+		{
+			if (visited.at(i) == false)
+				topoSort(projects[i]);
+		}
+		while (topoSortStack.empty() == false)
+		{
+			std::cout << topoSortStack.top() << " ";
+			topoSortStack.pop();
+		}
+		return 0;
+	}
 
     return 1;
 }
