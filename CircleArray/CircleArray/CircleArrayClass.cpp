@@ -47,12 +47,16 @@ CircleArrayClass::CircleArrayClass(CircleArrayClass &&_right)
 	listBegin_->prev = _right.listBegin_->prev;
 	listBegin_->value = _right.listBegin_->value;
 
+	listSize_ = _right.listSize_;
+
 	delete(_right.listBegin_);
 }
 
 CircleArrayClass& CircleArrayClass::operator=(CircleArrayClass &&_right)
 {
+	int size = _right.listSize_;
 	CircleArrayClass newFriend(_right.listBegin_);
+	newFriend.listSize_ = size;
 	return newFriend;
 }
 

@@ -1,0 +1,17 @@
+from scipy.misc import imread
+import sys
+
+if (len(sys.argv) != 3) :
+    print("Please provide files paths to two seperate images to be correlated")
+else :
+    # Import the images using scipy, also flatten them to make registration easier
+    img0 = imread(sys.argv[1], True).astype(float)
+    img1 = imread(sys.argv[2], True).astype(float)
+
+    # The more positive and negative values the error image has, the less registered the images are
+    errorImg = img0 - img1
+
+    # Calculate the Manhattan norm of the image
+    mNorm = sum(sum(abs(errorImg)))
+
+    print("Manhattan norm: ", mNorm)
