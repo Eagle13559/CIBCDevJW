@@ -35,8 +35,5 @@
     <ClCompile Include="CircleArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CircleArrayClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

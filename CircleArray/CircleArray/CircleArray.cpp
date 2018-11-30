@@ -20,6 +20,15 @@ int main()
 	std::cout << "Rotating forward again!\n";
 	c.rotateForward();
 	c.printList();
+
+	// Demonstrate the use of range based for loops
+	std::cout << "Using range based for loop to print!\n";
+	for (auto myNode : c)
+	{
+		std::cout << myNode << '\t';
+	}
+	std::cout << '\n';
+
     return 0;
 }
 
