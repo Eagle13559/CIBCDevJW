@@ -1,15 +1,16 @@
 #include "CircleArrayClass.h"
 #include <iostream>
 
-CircleArrayClass::CircleArrayClass(std::vector<int> &_list)
+template <typename T>
+CircleArrayClass<T>::CircleArrayClass(std::vector<T> &_list)
 {
-	listBegin_ = new Node;
+	listBegin_ = new Node<T>;
 	listBegin_->prev = nullptr;
 	listBegin_->value = _list.at(0);
-	Node *prev = listBegin_;
+	Node<T> *prev = listBegin_;
 	for (int i = 1; i < _list.size(); ++i)
 	{
-		Node *n = new Node;
+		Node<T> *n = new Node<T>;
 		n->prev = prev;
 		prev->next = n;
 		n->value = _list.at(i);
@@ -20,7 +21,8 @@ CircleArrayClass::CircleArrayClass(std::vector<int> &_list)
 	listSize_ = _list.size();
 }
 
-CircleArrayClass::CircleArrayClass(Node *_newFirstNode)
+template <typename T>
+CircleArrayClass<T>::CircleArrayClass(Node<T> *_newFirstNode)
 {
 	listBegin_->next = _newFirstNode->next;
 	listBegin_->prev = _newFirstNode->prev;
@@ -29,10 +31,11 @@ CircleArrayClass::CircleArrayClass(Node *_newFirstNode)
 	delete(_newFirstNode);
 }
 
-CircleArrayClass::~CircleArrayClass()
+template <typename T>
+CircleArrayClass<T>::~CircleArrayClass<T>()
 {
-	Node *current;
-	Node *next = listBegin_;
+	Node<T> *current;
+	Node<T> *next = listBegin_;
 	for (int i = 0; i < listSize_; ++i)
 	{
 		current = next;
@@ -41,7 +44,8 @@ CircleArrayClass::~CircleArrayClass()
 	}
 }
 
-CircleArrayClass::CircleArrayClass(CircleArrayClass &&_right)
+template <typename T>
+CircleArrayClass<T>::CircleArrayClass(CircleArrayClass<T> &&_right)
 {
 	listBegin_->next = _right.listBegin_->next;
 	listBegin_->prev = _right.listBegin_->prev;
@@ -52,27 +56,31 @@ CircleArrayClass::CircleArrayClass(CircleArrayClass &&_right)
 	delete(_right.listBegin_);
 }
 
-CircleArrayClass& CircleArrayClass::operator=(CircleArrayClass &&_right)
+template <typename T>
+CircleArrayClass<T>& CircleArrayClass<T>::operator=(CircleArrayClass<T> &&_right)
 {
 	int size = _right.listSize_;
-	CircleArrayClass newFriend(_right.listBegin_);
+	CircleArrayClass<T> newFriend(_right.listBegin_);
 	newFriend.listSize_ = size;
 	return newFriend;
 }
 
-void CircleArrayClass::rotateForward()
+template <typename T>
+void CircleArrayClass<T>::rotateForward()
 {
 	listBegin_ = listBegin_->next;
 }
 
-void CircleArrayClass::rotateBack()
+template <typename T>
+void CircleArrayClass<T>::rotateBack()
 {
 	listBegin_ = listBegin_->prev;
 }
 
-void CircleArrayClass::printList() 
+template <typename T>
+void CircleArrayClass<T>::printList()
 {
-	Node *current = listBegin_;
+	Node<T> *current = listBegin_;
 	for (int i = 0; i < listSize_; ++i)
 	{
 		std::cout << current->value << ", ";
@@ -80,3 +88,7 @@ void CircleArrayClass::printList()
 	}
 	std::cout << "\n";
 }
+
+// Why do this? To avoid linking errors
+// http://www.cs.technion.ac.il/users/yechiel/c++-faq/separate-template-class-defn-from-decl.html
+template class CircleArrayClass<int>;

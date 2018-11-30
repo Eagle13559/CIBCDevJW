@@ -1,14 +1,14 @@
 // CircleArray.cpp : Defines the entry point for the console application.
 //
 
-#include "CircleArrayClass.h"
 #include <vector>
 #include <iostream>
+#include "CircleArrayClass.h"
 
 int main()
 {
 	std::vector<int> list{1,2,3,4,5};
-	CircleArrayClass c(list);
+	CircleArrayClass<int> c(list);
 	c.printList();
 
 	std::cout << "Rotating backward!\n";

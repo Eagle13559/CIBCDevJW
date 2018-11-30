@@ -3,28 +3,30 @@
 
 #include <vector>
 
+template <typename T>
 struct Node {
-	Node *next;
-	Node *prev;
-	int value;
+	Node<T> *next;
+	Node<T> *prev;
+	T value;
 };
 
+template <typename T>
 class CircleArrayClass 
 {
 public:
 	// Constructor (will allocate memory)
-	CircleArrayClass(std::vector<int> &_list);
+	CircleArrayClass(std::vector<T> &_list);
 
 	// Destructor
 	~CircleArrayClass();
 
 	// Move and copy constructors
-	CircleArrayClass(const CircleArrayClass &_right) = delete; // No move assignment is allowed
-	CircleArrayClass(CircleArrayClass &&_right);
+	CircleArrayClass(const CircleArrayClass<T> &_right) = delete; // No move assignment is allowed
+	CircleArrayClass(CircleArrayClass<T> &&_right);
 
 	// Assignment operators
-	CircleArrayClass& operator=(const CircleArrayClass &_right) = delete; // No copy assignment is allowed
-	CircleArrayClass& operator=(CircleArrayClass &&_right);
+	CircleArrayClass<T>& operator=(const CircleArrayClass<T> &_right) = delete; // No copy assignment is allowed
+	CircleArrayClass<T>& operator=(CircleArrayClass<T> &&_right);
 
 	// Increments each index by 1, moving the last item to the first (in place)
 	void rotateForward();
@@ -36,9 +38,9 @@ public:
 	void printList();
 
 private:
-	CircleArrayClass(Node *_newFirstNode);
+	CircleArrayClass(Node<T> *_newFirstNode);
 
-	Node *listBegin_;
+	Node<T> *listBegin_;
 	int listSize_;
 
 };
